@@ -157,7 +157,7 @@ namespace FRFuel
 
                             if (GasStations.fuelInfo[i].Count >= 5)
                             {
-                                blip.Name = _gasStationPositionX.ToString();
+                                 blip.Name = GasStations.fuelInfo[i][4];
 
                                 //6 ELEMENT
 

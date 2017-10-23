@@ -10,6 +10,8 @@ namespace FRFuel
     public class FRFuel : BaseScript
     {
 
+        public static bool _blipCreated = false;
+
         #region Fields
         public static string fuelLevelPropertyName = "_Fuel_Level";
         public static string manualRefuelAnimDict = "weapon@w_sp_jerrycan";
@@ -134,6 +136,11 @@ namespace FRFuel
         /// </summary>
         public void CreateBlips()
         {
+            if (_blipCreated == false)
+            {
+            
+             _blipCreated = true;
+        
             if (Config.Get("CreateBlips", "true") != "true")
             {
                 return;
@@ -226,7 +233,7 @@ namespace FRFuel
                     blips[i] = blip;
                 }
 
-
+              }
             }
         }
 

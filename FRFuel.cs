@@ -83,8 +83,8 @@ namespace FRFuel
                 }
             });
 
-            blips = new Blip[GasStations.positions.Length];
-            pickups = new Pickup[GasStations.positions.Length];
+            blips = new Blip[GasStations.fuelInfo.Length];
+            pickups = new Pickup[GasStations.fuelInfo.Length];
 
             try
             {
@@ -251,9 +251,13 @@ namespace FRFuel
 
             Function.Call(Hash.REQUEST_MODEL, model);
 
-            for (int i = 0; i < GasStations.positions.Length; i++)
+            for (int i = 0; i < GasStations.fuelInfo.Length; i++)
             {
-                Vector3 p = GasStations.positions[i];
+                float _gasStationPositionX = float.Parse(GasStations.fuelInfo[i][0].ToString());
+                float _gasStationPositionY = float.Parse(GasStations.fuelInfo[i][1].ToString());
+                float _gasStationPositionZ = float.Parse(GasStations.fuelInfo[i][2].ToString());
+
+                Vector3 p = new Vector3(_gasStationPositionX, _gasStationPositionY, _gasStationPositionZ);
 
                 Pickup pickup = new Pickup(Function.Call<int>(
                   Hash.CREATE_PICKUP,
@@ -280,7 +284,13 @@ namespace FRFuel
             {
                 Blip blip = blips[i];
 
-                if (Vector3.DistanceSquared(GasStations.positions[i], pos) < rangeSquared)
+                float _gasStationPositionX = float.Parse(GasStations.fuelInfo[i][0].ToString());
+                float _gasStationPositionY = float.Parse(GasStations.fuelInfo[i][1].ToString());
+                float _gasStationPositionZ = float.Parse(GasStations.fuelInfo[i][2].ToString());
+
+                Vector3 p = new Vector3(_gasStationPositionX, _gasStationPositionY, _gasStationPositionZ);
+
+                if (Vector3.DistanceSquared(p, pos) < rangeSquared)
                 {
                     return i;
                 }

@@ -1,4 +1,4 @@
-﻿#undef MANUAL_ENGINE_CUTOFF
+#undef MANUAL_ENGINE_CUTOFF
 
 using System;
 using System.Threading.Tasks;
@@ -9,6 +9,8 @@ namespace FRFuel
 {
     public class FRFuel : BaseScript
     {
+        //Blip not already loaded
+        bool _blipCreated = false;
 
         #region Fields
         public static string fuelLevelPropertyName = "_Fuel_Level";
@@ -55,7 +57,7 @@ namespace FRFuel
         /// <summary>
         /// Ctor
         /// </summary>
-        public FRFuel()
+        public SistemaBenzina()
         {
             hud = new HUD();
 
@@ -77,22 +79,12 @@ namespace FRFuel
             {
                 if (toggle.GetType() == typeof(bool))
                 {
-                    refuelAllowed = (bool) toggle;
+                    refuelAllowed = (bool)toggle;
                 }
             });
-
-            blips = new Blip[GasStations.positions.Length];
-            pickups = new Pickup[GasStations.positions.Length];
-
-            try
-            {
-                CreateBlips();
-                CreateJerryCanPickUps();
-            }
-            catch
-            {
-                // nothing
-            }
+            
+            blips = new Blip[GasStations.fuelInfo.Length];
+            pickups = new Pickup[GasStations.fuelInfo.Length];
 
             Tick += OnTick;
 
@@ -111,7 +103,7 @@ namespace FRFuel
             {
                 configContent = Function.Call<string>(Hash.LOAD_RESOURCE_FILE, "frfuel", "config.ini");
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 // nothing
             }
@@ -120,10 +112,10 @@ namespace FRFuel
 
             showHud = Config.Get("ShowHud", "true") == "true";
 
-            #if DEBUG
+#if DEBUG
             Debug.WriteLine($"CreatePickups: {Config.Get("CreatePickups", "true")}");
             Debug.WriteLine($"ShowHud: {Config.Get("ShowHud", "true")}");
-            #endif
+#endif
         }
 
         /// <summary>
@@ -131,21 +123,94 @@ namespace FRFuel
         /// </summary>
         public void CreateBlips()
         {
-            if (Config.Get("CreateBlips", "true") != "true")
-            {
-                return;
-            }
 
-            for (int i = 0; i < GasStations.positions.Length; i++)
+            if (_blipCreated == false)
             {
-                var blip = World.CreateBlip(GasStations.positions[i]);
-                blip.Sprite = BlipSprite.JerryCan;
-                blip.Color = BlipColor.White;
-                blip.Scale = 1f;
-                blip.IsShortRange = true;
-                blip.Name = "Gas Station";
+                _blipCreated = true;
 
-                blips[i] = blip;
+                for (int i = 0; i < GasStations.fuelInfo.Length; i++)
+                {
+                    //SE HA ALMENO I 3 ELEMENTI
+                    if (GasStations.fuelInfo[i].Count >= 3)
+                    {
+                        //REMEMBER DON'T PUT GasStations.fuelInfo[i][0].ToString() OR THE "." WILL DISAPPEAR
+                        float _gasStationPositionX = float.Parse(GasStations.fuelInfo[i][0]);
+                        float _gasStationPositionY = float.Parse(GasStations.fuelInfo[i][1]);
+                        float _gasStationPositionZ = float.Parse(GasStations.fuelInfo[i][2]);
+
+                        var blip = World.CreateBlip(new Vector3(_gasStationPositionX, _gasStationPositionY, _gasStationPositionZ));
+
+                        if (GasStations.fuelInfo[i].Count >= 4)
+                        {
+                            //4 ELEMENT
+
+                            if (GasStations.fuelInfo[i][3].ToString() == "JerryCan")
+                            {
+                                blip.Sprite = BlipSprite.JerryCan;
+                            }
+
+                            //5 ELEMENT
+
+                            if (GasStations.fuelInfo[i].Count >= 5)
+                            {
+                                blip.Name = GasStations.fuelInfo[i][4].ToString();
+
+                                //6 ELEMENT
+
+                                if (GasStations.fuelInfo[i].Count >= 6)
+                                {
+                                    if (GasStations.fuelInfo[i][5].ToString() == "White")
+                                    {
+                                        blip.Color = BlipColor.White;
+                                    }
+                                    else
+                                    if (GasStations.fuelInfo[i][5].ToString() == "Blue")
+                                    {
+                                        blip.Color = BlipColor.Blue;
+                                    }
+
+                                    //7 ELEMENT
+                                    if (GasStations.fuelInfo[i].Count >= 7)
+                                    {
+                                        blip.Scale = float.Parse(GasStations.fuelInfo[i][6].ToString());
+
+                                        //8 ELEMENT
+                                        if (GasStations.fuelInfo[i].Count >= 8)
+                                        {
+
+                                            if (GasStations.fuelInfo[i][7].ToString() == "true")
+                                            {
+                                                blip.IsShortRange = true;
+                                            }
+                                            else if (GasStations.fuelInfo[i][7].ToString() == "false")
+                                            {
+                                                blip.IsShortRange = false;
+                                            }
+
+                                            //9 ELEMENT
+                                            if (GasStations.fuelInfo[i].Count >= 9)
+                                            {
+
+                                                // GasStations.fuelInfo[i][8].ToString()   //PRICE IF YOU WANT TO ADD
+
+
+                                            }
+
+                                        }
+
+
+                                    }
+
+
+
+                                }
+
+
+                            }
+
+                        }
+                    }
+                }
             }
         }
 
@@ -163,14 +228,18 @@ namespace FRFuel
 
             Function.Call(Hash.REQUEST_MODEL, model);
 
-            for (int i = 0; i < GasStations.positions.Length; i++)
+            for (int i = 0; i < GasStations.fuelInfo.Length; i++)
             {
-                Vector3 p = GasStations.positions[i];
+                float _gasStationPositionX = float.Parse(GasStations.fuelInfo[i][0]);
+                float _gasStationPositionY = float.Parse(GasStations.fuelInfo[i][1]);
+                float _gasStationPositionZ = float.Parse(GasStations.fuelInfo[i][2]);
+
+                Vector3 posizioneBlip = new Vector3(_gasStationPositionX, _gasStationPositionY, _gasStationPositionZ);
 
                 Pickup pickup = new Pickup(Function.Call<int>(
                   Hash.CREATE_PICKUP,
                   -962731009, // Petrol Can
-                  p.X, p.Y, p.Z - 0.5f,
+                  posizioneBlip.X, posizioneBlip.Y, posizioneBlip.Z - 0.5f,
                   8, // Place on the ground
                   true, model
                 ));
@@ -192,7 +261,13 @@ namespace FRFuel
             {
                 Blip blip = blips[i];
 
-                if (Vector3.DistanceSquared(GasStations.positions[i], pos) < rangeSquared)
+                float _gasStationPositionX = float.Parse(GasStations.fuelInfo[i][0]);
+                float _gasStationPositionY = float.Parse(GasStations.fuelInfo[i][1]);
+                float _gasStationPositionZ = float.Parse(GasStations.fuelInfo[i][2]);
+
+                Vector3 posizioneBlip = new Vector3(_gasStationPositionX, _gasStationPositionY, _gasStationPositionZ);
+
+                if (Vector3.DistanceSquared(posizioneBlip, pos) < rangeSquared)
                 {
                     return i;
                 }
@@ -210,7 +285,7 @@ namespace FRFuel
         {
             EntityBone bone = null;
 
-            foreach(var boneName in tankBones)
+            foreach (var boneName in tankBones)
             {
                 var boneIndex = Function.Call<int>(
                     Hash.GET_ENTITY_BONE_INDEX_BY_NAME,
@@ -266,7 +341,7 @@ namespace FRFuel
             // Consuming
             if (fuel > 0 && vehicle.IsEngineRunning)
             {
-                float normalizedRPMValue = (float) Math.Pow(vehicle.CurrentRPM, 1.5);
+                float normalizedRPMValue = (float)Math.Pow(vehicle.CurrentRPM, 1.5);
 
                 fuel -= normalizedRPMValue * fuelRPMImpact;
                 fuel -= vehicle.Acceleration * fuelAccelerationImpact;
@@ -430,7 +505,7 @@ namespace FRFuel
             float min = fuelLevel / 3f;
             float max = fuelLevel - (fuelLevel / 4);
 
-            return (float) ((random.NextDouble() * (max - min)) + min);
+            return (float)((random.NextDouble() * (max - min)) + min);
         }
 
         /// <summary>

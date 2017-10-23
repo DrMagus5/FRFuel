@@ -253,21 +253,25 @@ namespace FRFuel
 
             for (int i = 0; i < GasStations.fuelInfo.Length; i++)
             {
-                float _gasStationPositionX = float.Parse(GasStations.fuelInfo[i][0].ToString());
-                float _gasStationPositionY = float.Parse(GasStations.fuelInfo[i][1].ToString());
-                float _gasStationPositionZ = float.Parse(GasStations.fuelInfo[i][2].ToString());
+                if (GasStations.fuelInfo[i].Count >= 3)
+                {
 
-                Vector3 p = new Vector3(_gasStationPositionX, _gasStationPositionY, _gasStationPositionZ);
+                    float _gasStationPositionX = float.Parse(GasStations.fuelInfo[i][0].ToString());
+                    float _gasStationPositionY = float.Parse(GasStations.fuelInfo[i][1].ToString());
+                    float _gasStationPositionZ = float.Parse(GasStations.fuelInfo[i][2].ToString());
 
-                Pickup pickup = new Pickup(Function.Call<int>(
-                  Hash.CREATE_PICKUP,
-                  -962731009, // Petrol Can
-                  p.X, p.Y, p.Z - 0.5f,
-                  8, // Place on the ground
-                  true, model
-                ));
+                    Vector3 p = new Vector3(_gasStationPositionX, _gasStationPositionY, _gasStationPositionZ);
 
-                pickups[i] = pickup;
+                    Pickup pickup = new Pickup(Function.Call<int>(
+                      Hash.CREATE_PICKUP,
+                      -962731009, // Petrol Can
+                      p.X, p.Y, p.Z - 0.5f,
+                      8, // Place on the ground
+                      true, model
+                    ));
+
+                    pickups[i] = pickup;
+                }
             }
         }
         #endregion
@@ -282,17 +286,22 @@ namespace FRFuel
         {
             for (int i = 0; i < blips.Length; i++)
             {
-                Blip blip = blips[i];
-
-                float _gasStationPositionX = float.Parse(GasStations.fuelInfo[i][0].ToString());
-                float _gasStationPositionY = float.Parse(GasStations.fuelInfo[i][1].ToString());
-                float _gasStationPositionZ = float.Parse(GasStations.fuelInfo[i][2].ToString());
-
-                Vector3 p = new Vector3(_gasStationPositionX, _gasStationPositionY, _gasStationPositionZ);
-
-                if (Vector3.DistanceSquared(p, pos) < rangeSquared)
+                if (GasStations.fuelInfo[i].Count >= 3)
                 {
-                    return i;
+
+                    Blip blip = blips[i];
+
+                    float _gasStationPositionX = float.Parse(GasStations.fuelInfo[i][0].ToString());
+                    float _gasStationPositionY = float.Parse(GasStations.fuelInfo[i][1].ToString());
+                    float _gasStationPositionZ = float.Parse(GasStations.fuelInfo[i][2].ToString());
+
+                    Vector3 p = new Vector3(_gasStationPositionX, _gasStationPositionY, _gasStationPositionZ);
+
+                    if (Vector3.DistanceSquared(p, pos) < rangeSquared)
+                    {
+                        return i;
+                    }
+
                 }
             }
 

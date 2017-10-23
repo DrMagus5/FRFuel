@@ -129,6 +129,9 @@ namespace FRFuel
         /// <summary>
         /// Creates blips for gas stations
         /// </summary>
+        /// <summary>
+        /// Creates blips for gas stations
+        /// </summary>
         public void CreateBlips()
         {
             if (Config.Get("CreateBlips", "true") != "true")
@@ -136,16 +139,94 @@ namespace FRFuel
                 return;
             }
 
-            for (int i = 0; i < GasStations.positions.Length; i++)
+            for (int i = 0; i < GasStations.fuelInfo.Length; i++)
             {
-                var blip = World.CreateBlip(GasStations.positions[i]);
-                blip.Sprite = BlipSprite.JerryCan;
-                blip.Color = BlipColor.White;
-                blip.Scale = 1f;
-                blip.IsShortRange = true;
-                blip.Name = "Gas Station";
 
-                blips[i] = blip;
+                //WE HAVE MORE THAN 3 ELEMENT
+                if (GasStations.fuelInfo[i].Count >= 3)
+                {
+
+                    float _gasStationPositionX = float.Parse(GasStations.fuelInfo[i][0].ToString());
+                    float _gasStationPositionY = float.Parse(GasStations.fuelInfo[i][1].ToString());
+                    float _gasStationPositionZ = float.Parse(GasStations.fuelInfo[i][2].ToString());
+
+                    var blip = World.CreateBlip(new Vector3(_gasStationPositionX, _gasStationPositionY, _gasStationPositionZ));
+
+                    if (GasStations.fuelInfo[i].Count >= 4)
+                    {
+                        //4 ELEMENT
+
+                        if (GasStations.fuelInfo[i][3].ToString() == "JerryCan")
+                        {
+                            blip.Sprite = BlipSprite.JerryCan;
+                        }
+
+                        //5 ELEMENT
+
+                        if (GasStations.fuelInfo[i].Count >= 5)
+                        {
+                            blip.Name = GasStations.fuelInfo[i][4].ToString();
+
+                            //6 ELEMENT
+
+                            if (GasStations.fuelInfo[i].Count >= 6)
+                            {
+                                if (GasStations.fuelInfo[i][5].ToString() == "White")
+                                {
+                                    blip.Color = BlipColor.White;
+                                }
+                                else
+                                if (GasStations.fuelInfo[i][5].ToString() == "Blue")
+                                {
+                                    blip.Color = BlipColor.Blue;
+                                }
+
+                                //7 ELEMENT
+                                if (GasStations.fuelInfo[i].Count >= 7)
+                                {
+                                    blip.Scale = float.Parse(GasStations.fuelInfo[i][6].ToString());
+
+                                    //8 ELEMENT
+                                    if (GasStations.fuelInfo[i].Count >= 8)
+                                    {
+
+                                        if (GasStations.fuelInfo[i][7].ToString() == "true")
+                                        {
+                                            blip.IsShortRange = true;
+                                        }
+                                        else if (GasStations.fuelInfo[i][7].ToString() == "false")
+                                        {
+                                            blip.IsShortRange = false;
+                                        }
+
+                                        //9 ELEMENT
+                                        if (GasStations.fuelInfo[i].Count >= 9)
+                                        {
+
+                                           // GasStations.fuelInfo[i][8].ToString()   EXPANSION FOR FUEL PRICE
+  
+
+                                        }
+
+                                    }
+
+
+                                 }
+
+
+
+                            }
+
+
+                        }
+
+                    }
+                    
+
+                    blips[i] = blip;
+                }
+
+
             }
         }
 

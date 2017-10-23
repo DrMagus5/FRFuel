@@ -7,11 +7,36 @@ namespace FRFuel
         
         public static List<string>[] fuelInfo = {
             // X , Y , Z , SpriteName, NameOnMap , Color , Scale , isshortrange , fuelPrice
-             new List<string>(new string[] { "49.41872", "2778.793", "58.04395", "JerryCan" ,"Gas Station", "White", "1" , "true","1"}),
-             new List<string>(new string[] { "263.8949", "2606.463", "44.98339", "JerryCan" ,"Gas Station", "Blue" , "2" , "true","1.2"}),
-            new List<string>(new string[] { "1039.958", "2671.134", "39.55091", "JerryCan" ,"Gas Station", "White", "1" , "true","1"}),
-             new List<string>(new string[] { "1207.26", "2660.175", "37.89996", "JerryCan" ,"Gas Station", "Blue" , "2" , "true","1.2"})
-        };
+            new List<string>(new string[] { "49.41872",  "2778.793", "58.04395", "JerryCan", "Gas Station", "White", "1", "true", "1.0"}),
+            new List<string>(new string[] { "263.8949",  "2606.463", "44.98339", "JerryCan", "Gas Station", "Blue" , "2", "true", "1.2"}),
+            new List<string>(new string[] { "1039.958",  "2671.134", "39.55091", "JerryCan", "Gas Station", "White", "1", "true", "1.0"}),
+            new List<string>(new string[] { "1207.26",   "2660.175", "37.89996", "JerryCan", "Gas Station", "Blue" , "2", "true", "1.2"}),                                                                                                                          
+            new List<string>(new string[] { "2539.685",  "2594.192", "37.94488", "JerryCan", "Gas Station", "White", "1", "true", "1.2"}),
+            new List<string>(new string[] { "2679.858",  "3263.946", "55.24057", "JerryCan", "Gas Station", "White", "1", "true", "1.2"}),
+            new List<string>(new string[] { "2005.055",  "3773.887", "32.40393", "JerryCan", "Gas Station", "White", "1", "true", "1.2"}),
+            new List<string>(new string[] { "1687.156",  "4929.392", "42.07809", "JerryCan", "Gas Station", "White", "1", "true", "1.2"}),
+            new List<string>(new string[] { "1701.314",  "6416.028", "32.76395", "JerryCan", "Gas Station", "White", "1", "true", "1.2"}),
+            new List<string>(new string[] { "179.8573",  "6602.839", "31.86817", "JerryCan", "Gas Station", "White", "1", "true", "1.2"}),
+            new List<string>(new string[] {"-94.46199",  "6419.594", "31.48952", "JerryCan", "Gas Station", "White", "1", "true", "1.2"}),
+            new List<string>(new string[] {"-2554.996",  "2334.402", "33.07803", "JerryCan", "Gas Station", "White", "1", "true", "1.2"}),
+            new List<string>(new string[] {"-1800.375",  "803.6619", "138.6512", "JerryCan", "Gas Station", "White", "1", "true", "1.2"}),
+            new List<string>(new string[] {"-1437.622", "-276.7476", "46.20771", "JerryCan", "Gas Station", "White", "1", "true", "1.2"}),
+            new List<string>(new string[] {"-2096.243", "-320.2867", "13.16857", "JerryCan", "Gas Station", "White", "1", "true", "1.2"}),
+            new List<string>(new string[] {"-724.6192", "-935.1631", "19.21386", "JerryCan", "Gas Station", "White", "1", "true", "1.2"}),
+            new List<string>(new string[] {"-526.0198", "-1211.003", "18.18483", "JerryCan", "Gas Station", "White", "1", "true", "1.2"}),
+            new List<string>(new string[] {"-70.21484", "-1761.792", "29.53402", "JerryCan", "Gas Station", "White", "1", "true", "1.2"}),
+            new List<string>(new string[] { "265.6484", "-1261.309", "29.29294", "JerryCan", "Gas Station", "White", "1", "true", "1.2"}),
+            new List<string>(new string[] { "819.6538", "-1028.846", "26.40342", "JerryCan", "Gas Station", "White", "1", "true", "1.2"}),
+            new List<string>(new string[] { "1208.951", "-1402.567", "35.22419", "JerryCan", "Gas Station", "White", "1", "true", "1.2"}),
+            new List<string>(new string[] { "1181.381", "-330.8471", "69.31651", "JerryCan", "Gas Station", "White", "1", "true", "1.2"}),
+            new List<string>(new string[] { "620.8434",  "269.1009", "103.0895", "JerryCan", "Gas Station", "White", "1", "true", "1.2"}),
+            new List<string>(new string[] { "2581.321",  "362.0393", "108.4688", "JerryCan", "Gas Station", "White", "1", "true", "1.2"}),
+            new List<string>(new string[] { "1785.363",  "3330.372", "41.38188", "JerryCan", "Gas Station", "White", "1", "true", "1.2"}),
+            new List<string>(new string[] { "-319.690", "-1471.610",   "30.030", "JerryCan", "Gas Station", "White", "1", "true", "1.2"}), /* Innocence Blvd / Alta St [SR-19] */
+            new List<string>(new string[] {  "174.880", "-1562.450",   "28.740", "JerryCan", "Gas Station", "White", "1", "true", "1.2"}), /* Davis Ave / Macdonald St */
+            new List<string>(new string[] { "1246.480", "-1485.450",   "34.900", "JerryCan", "Gas Station", "White", "1", "true", "1.2"}), /* Near El Rancho Blvd [SR-18] / Capital Blvd */
+            new List<string>(new string[] {  "-66.330", "-2532.570",    "6.140", "JerryCan", "Gas Station", "White", "1", "true", "1.2"})  /* Near Miriam Turner Overpass */
+    };       
 
         public static Vector3[][] pumps =
         {

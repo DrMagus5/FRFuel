@@ -1,6 +1,7 @@
 #undef MANUAL_ENGINE_CUTOFF
 
 using System;
+using System.Globalization;
 using System.Threading.Tasks;
 using CitizenFX.Core;
 using CitizenFX.Core.Native;
@@ -9,7 +10,7 @@ namespace FRFuel
 {
     public class FRFuel : BaseScript
     {
-        //Blip not already loaded
+        //Blip not already created
         bool _blipCreated = false;
 
         #region Fields
@@ -130,13 +131,16 @@ namespace FRFuel
 
                 for (int i = 0; i < GasStations.fuelInfo.Length; i++)
                 {
+
                     //SE HA ALMENO I 3 ELEMENTI
                     if (GasStations.fuelInfo[i].Count >= 3)
                     {
-                        //REMEMBER DON'T PUT GasStations.fuelInfo[i][0].ToString() OR THE "." WILL DISAPPEAR
-                        float _gasStationPositionX = float.Parse(GasStations.fuelInfo[i][0]);
-                        float _gasStationPositionY = float.Parse(GasStations.fuelInfo[i][1]);
-                        float _gasStationPositionZ = float.Parse(GasStations.fuelInfo[i][2]);
+                        //Must be define the separator or will give a wrong position from string to float
+                        CultureInfo ci = (CultureInfo)CultureInfo.CurrentCulture.Clone();
+                        ci.NumberFormat.CurrencyDecimalSeparator = ".";
+                        float _gasStationPositionX = float.Parse(GasStations.fuelInfo[i][0], NumberStyles.Any, ci);
+                        float _gasStationPositionY = float.Parse(GasStations.fuelInfo[i][1], NumberStyles.Any, ci);
+                        float _gasStationPositionZ = float.Parse(GasStations.fuelInfo[i][2], NumberStyles.Any, ci);
 
                         var blip = World.CreateBlip(new Vector3(_gasStationPositionX, _gasStationPositionY, _gasStationPositionZ));
 
@@ -144,7 +148,7 @@ namespace FRFuel
                         {
                             //4 ELEMENT
 
-                            if (GasStations.fuelInfo[i][3].ToString() == "JerryCan")
+                            if (GasStations.fuelInfo[i][3] == "JerryCan")
                             {
                                 blip.Sprite = BlipSprite.JerryCan;
                             }
@@ -153,18 +157,18 @@ namespace FRFuel
 
                             if (GasStations.fuelInfo[i].Count >= 5)
                             {
-                                blip.Name = GasStations.fuelInfo[i][4].ToString();
+                                blip.Name = _gasStationPositionX.ToString();
 
                                 //6 ELEMENT
 
                                 if (GasStations.fuelInfo[i].Count >= 6)
                                 {
-                                    if (GasStations.fuelInfo[i][5].ToString() == "White")
+                                    if (GasStations.fuelInfo[i][5] == "White")
                                     {
                                         blip.Color = BlipColor.White;
                                     }
                                     else
-                                    if (GasStations.fuelInfo[i][5].ToString() == "Blue")
+                                    if (GasStations.fuelInfo[i][5] == "Blue")
                                     {
                                         blip.Color = BlipColor.Blue;
                                     }
@@ -172,17 +176,17 @@ namespace FRFuel
                                     //7 ELEMENT
                                     if (GasStations.fuelInfo[i].Count >= 7)
                                     {
-                                        blip.Scale = float.Parse(GasStations.fuelInfo[i][6].ToString());
+                                        blip.Scale = float.Parse(GasStations.fuelInfo[i][6]);
 
                                         //8 ELEMENT
                                         if (GasStations.fuelInfo[i].Count >= 8)
                                         {
 
-                                            if (GasStations.fuelInfo[i][7].ToString() == "true")
+                                            if (GasStations.fuelInfo[i][7] == "true")
                                             {
                                                 blip.IsShortRange = true;
                                             }
-                                            else if (GasStations.fuelInfo[i][7].ToString() == "false")
+                                            else if (GasStations.fuelInfo[i][7] == "false")
                                             {
                                                 blip.IsShortRange = false;
                                             }
@@ -191,7 +195,7 @@ namespace FRFuel
                                             if (GasStations.fuelInfo[i].Count >= 9)
                                             {
 
-                                                // GasStations.fuelInfo[i][8].ToString()   //PRICE IF YOU WANT TO ADD
+                                                // GasStations.fuelInfo[i][8].ToString()   PRICE
 
 
                                             }
@@ -209,6 +213,8 @@ namespace FRFuel
                             }
 
                         }
+
+                        blips[i] = blip;
                     }
                 }
             }
@@ -230,9 +236,12 @@ namespace FRFuel
 
             for (int i = 0; i < GasStations.fuelInfo.Length; i++)
             {
-                float _gasStationPositionX = float.Parse(GasStations.fuelInfo[i][0]);
-                float _gasStationPositionY = float.Parse(GasStations.fuelInfo[i][1]);
-                float _gasStationPositionZ = float.Parse(GasStations.fuelInfo[i][2]);
+                //Must be define the separator or will give a wrong position from string to float
+                CultureInfo ci = (CultureInfo)CultureInfo.CurrentCulture.Clone();
+                ci.NumberFormat.CurrencyDecimalSeparator = ".";
+                float _gasStationPositionX = float.Parse(GasStations.fuelInfo[i][0], NumberStyles.Any, ci);
+                float _gasStationPositionY = float.Parse(GasStations.fuelInfo[i][1], NumberStyles.Any, ci);
+                float _gasStationPositionZ = float.Parse(GasStations.fuelInfo[i][2], NumberStyles.Any, ci);
 
                 Vector3 posizioneBlip = new Vector3(_gasStationPositionX, _gasStationPositionY, _gasStationPositionZ);
 
@@ -261,9 +270,12 @@ namespace FRFuel
             {
                 Blip blip = blips[i];
 
-                float _gasStationPositionX = float.Parse(GasStations.fuelInfo[i][0]);
-                float _gasStationPositionY = float.Parse(GasStations.fuelInfo[i][1]);
-                float _gasStationPositionZ = float.Parse(GasStations.fuelInfo[i][2]);
+                //Must be define the separator or will give a wrong position from string to float
+                CultureInfo ci = (CultureInfo)CultureInfo.CurrentCulture.Clone();
+                ci.NumberFormat.CurrencyDecimalSeparator = ".";
+                float _gasStationPositionX = float.Parse(GasStations.fuelInfo[i][0], NumberStyles.Any, ci);
+                float _gasStationPositionY = float.Parse(GasStations.fuelInfo[i][1], NumberStyles.Any, ci);
+                float _gasStationPositionZ = float.Parse(GasStations.fuelInfo[i][2], NumberStyles.Any, ci);
 
                 Vector3 posizioneBlip = new Vector3(_gasStationPositionX, _gasStationPositionY, _gasStationPositionZ);
 
